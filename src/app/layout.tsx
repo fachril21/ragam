@@ -1,13 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { ToastProvider } from "@/components/ui";
+import { sans } from "@/theme/fonts";
 import { storeConfig } from "@/theme/store.config";
 import { tokens, tokensToCssVariables } from "@/theme/tokens";
 import "./globals.css";
-
-const sans = Inter({ variable: "--font-sans-family", subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: {
