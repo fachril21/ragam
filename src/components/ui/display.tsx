@@ -31,7 +31,9 @@ export function Badge({
 }
 
 export function Skeleton({ className }: { className?: string }) {
-  return <div aria-hidden="true" className={cn("animate-pulse rounded-md bg-neutral-200", className)} />;
+  return (
+    <div aria-hidden="true" className={cn("animate-pulse rounded-md bg-neutral-200", className)} />
+  );
 }
 
 export interface BreadcrumbItem {
@@ -41,7 +43,7 @@ export interface BreadcrumbItem {
 
 export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
   return (
-    <nav aria-label="Jejak halaman (breadcrumb)" className="text-sm text-text-muted">
+    <nav aria-label="Jejak halaman (breadcrumb)" className="text-text-muted text-sm">
       <ol className="flex flex-wrap items-center gap-1.5">
         {items.map((item, i) => {
           const isLast = i === items.length - 1;
@@ -52,7 +54,10 @@ export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
                   {item.label}
                 </Link>
               ) : (
-                <span aria-current={isLast ? "page" : undefined} className={cn(isLast && "text-text")}>
+                <span
+                  aria-current={isLast ? "page" : undefined}
+                  className={cn(isLast && "text-text")}
+                >
                   {item.label}
                 </span>
               )}
@@ -83,7 +88,8 @@ export function Pagination({ page, totalPages, basePath, query = {} }: Paginatio
   if (totalPages <= 1) return null;
   const href = (p: number) => pageHref(basePath, query, p);
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-  const linkClass = "inline-flex size-10 items-center justify-center rounded-md border border-border text-sm hover:bg-surface";
+  const linkClass =
+    "inline-flex size-10 items-center justify-center rounded-md border border-border text-sm hover:bg-surface";
   return (
     <nav aria-label="Halaman" className="flex flex-wrap items-center justify-center gap-2">
       {page > 1 && (
@@ -96,7 +102,7 @@ export function Pagination({ page, totalPages, basePath, query = {} }: Paginatio
           <span
             key={p}
             aria-current="page"
-            className="inline-flex size-10 items-center justify-center rounded-md bg-primary text-sm text-on-primary"
+            className="bg-primary text-on-primary inline-flex size-10 items-center justify-center rounded-md text-sm"
           >
             {p}
           </span>

@@ -84,9 +84,7 @@ describe("E0-AC5: data integrity", () => {
   });
 
   it("rejects an invalid order status", async () => {
-    expect(await rejects(db, "update orders set status = 'teleported'")).toMatch(
-      /enum|invalid/i,
-    );
+    expect(await rejects(db, "update orders set status = 'teleported'")).toMatch(/enum|invalid/i);
   });
 
   it("keeps updated_at fresh on update", async () => {

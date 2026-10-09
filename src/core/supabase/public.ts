@@ -1,7 +1,10 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { parsePublicEnv, type PublicEnv } from "../env";
 
-type PublicClientEnv = Pick<PublicEnv, "NEXT_PUBLIC_SUPABASE_URL" | "NEXT_PUBLIC_SUPABASE_ANON_KEY">;
+type PublicClientEnv = Pick<
+  PublicEnv,
+  "NEXT_PUBLIC_SUPABASE_URL" | "NEXT_PUBLIC_SUPABASE_ANON_KEY"
+>;
 
 /** Anon-key client for reading the storefront. Access is limited by RLS. */
 export function createPublicClient(env: PublicClientEnv): SupabaseClient {

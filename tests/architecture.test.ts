@@ -33,7 +33,9 @@ describe("architecture boundaries", () => {
   });
 
   it("the service-role client module is marked server-only", () => {
-    expect(read(join(srcDir, "core", "supabase", "server.ts"))).toMatch(/import\s+["']server-only["']/);
+    expect(read(join(srcDir, "core", "supabase", "server.ts"))).toMatch(
+      /import\s+["']server-only["']/,
+    );
   });
 
   it("server env is only read in server-only modules", () => {

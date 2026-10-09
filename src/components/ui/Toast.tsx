@@ -1,6 +1,14 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 interface ToastItem {
   id: number;
@@ -37,7 +45,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         {toasts.map((t) => (
           <div
             key={t.id}
-            className="pointer-events-auto rounded-md bg-primary px-4 py-3 text-sm text-on-primary shadow-overlay"
+            className="bg-primary text-on-primary shadow-overlay pointer-events-auto rounded-md px-4 py-3 text-sm"
           >
             {t.message}
           </div>

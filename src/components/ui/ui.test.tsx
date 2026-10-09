@@ -81,7 +81,14 @@ describe("Input", () => {
 describe("Select, Checkbox, RadioGroup", () => {
   it("Select exposes its label and options", () => {
     render(
-      <Select label="Ukuran" name="size" options={[{ value: "M", label: "M" }, { value: "L", label: "L" }]} />,
+      <Select
+        label="Ukuran"
+        name="size"
+        options={[
+          { value: "M", label: "M" },
+          { value: "L", label: "L" },
+        ]}
+      />,
     );
     const select = screen.getByLabelText("Ukuran");
     expect(within(select).getAllByRole("option")).toHaveLength(2);
@@ -100,7 +107,10 @@ describe("Select, Checkbox, RadioGroup", () => {
       <RadioGroup
         legend="Kurir"
         name="courier"
-        options={[{ value: "jne", label: "JNE" }, { value: "jnt", label: "J&T" }]}
+        options={[
+          { value: "jne", label: "JNE" },
+          { value: "jnt", label: "J&T" },
+        ]}
         onChange={onChange}
       />,
     );
@@ -149,7 +159,10 @@ describe("Pagination", () => {
 
   it("preserves existing query params", () => {
     render(<Pagination page={1} totalPages={3} basePath="/produk" query={{ size: "M" }} />);
-    expect(screen.getByRole("link", { name: "2" })).toHaveAttribute("href", "/produk?size=M&page=2");
+    expect(screen.getByRole("link", { name: "2" })).toHaveAttribute(
+      "href",
+      "/produk?size=M&page=2",
+    );
   });
 
   it("renders nothing for a single page", () => {

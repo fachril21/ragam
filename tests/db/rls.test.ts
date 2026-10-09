@@ -84,8 +84,16 @@ describe("E0-AC4: anon can only read public catalog data", () => {
   });
 
   it.each([
-    ["products", "update products set name = 'hacked'", "select count(*)::int n from products where name = 'hacked'"],
-    ["store_settings", "update store_settings set name = 'hacked'", "select count(*)::int n from store_settings where name = 'hacked'"],
+    [
+      "products",
+      "update products set name = 'hacked'",
+      "select count(*)::int n from products where name = 'hacked'",
+    ],
+    [
+      "store_settings",
+      "update store_settings set name = 'hacked'",
+      "select count(*)::int n from store_settings where name = 'hacked'",
+    ],
   ])("cannot update %s", async (_t, update, check) => {
     await as(db, "anon", async () => {
       await db.exec(update).catch(() => undefined);

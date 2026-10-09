@@ -136,10 +136,9 @@ export interface ListProductsOptions {
 
 export function createCatalogRepository(client: SupabaseClient) {
   return {
-    async getProducts({
-      page = 1,
-      limit = 24,
-    }: ListProductsOptions = {}): Promise<ProductSummary[]> {
+    async getProducts({ page = 1, limit = 24 }: ListProductsOptions = {}): Promise<
+      ProductSummary[]
+    > {
       const from = (page - 1) * limit;
       const { data, error } = await client
         .from("products")

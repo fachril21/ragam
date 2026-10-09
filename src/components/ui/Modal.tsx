@@ -26,16 +26,16 @@ export function Modal({ open, title, onClose, children }: ModalProps) {
       ref={ref}
       aria-labelledby={titleId}
       onClose={onClose}
-      className="m-auto w-[min(32rem,calc(100vw-2rem))] rounded-lg bg-background p-0 text-text shadow-overlay backdrop:bg-black/50"
+      className="bg-background text-text shadow-overlay m-auto w-[min(32rem,calc(100vw-2rem))] rounded-lg p-0 backdrop:bg-black/50"
     >
-      <div className="flex items-center justify-between border-b border-border px-5 py-4">
+      <div className="border-border flex items-center justify-between border-b px-5 py-4">
         <h2 id={titleId} className="text-base font-semibold">
           {title}
         </h2>
         <button
           type="button"
           onClick={onClose}
-          className="rounded-md px-2 py-1 text-sm hover:bg-surface focus-visible:outline-2 focus-visible:outline-accent"
+          className="hover:bg-surface focus-visible:outline-accent rounded-md px-2 py-1 text-sm focus-visible:outline-2"
         >
           Tutup
         </button>

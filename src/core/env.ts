@@ -7,7 +7,8 @@ import { z } from "zod";
  */
 
 const emptyToUndefined = (value: unknown) => (value === "" ? undefined : value);
-const optional = <T extends z.ZodType>(schema: T) => z.preprocess(emptyToUndefined, schema.optional());
+const optional = <T extends z.ZodType>(schema: T) =>
+  z.preprocess(emptyToUndefined, schema.optional());
 
 const secretToken = z.string().min(16, "must be at least 16 characters");
 

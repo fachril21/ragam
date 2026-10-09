@@ -38,7 +38,8 @@ describe("parsePublicEnv", () => {
 
 describe("parseServerEnv", () => {
   it("fails fast with a clear message when the service role key is missing", () => {
-    const { SUPABASE_SERVICE_ROLE_KEY: _omit, ...rest } = validServer;
+    const rest: Record<string, string> = { ...validServer };
+    delete rest.SUPABASE_SERVICE_ROLE_KEY;
     expect(() => parseServerEnv(rest)).toThrow(/SUPABASE_SERVICE_ROLE_KEY/);
   });
 
