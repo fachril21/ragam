@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-const createClient = vi.fn((url: string, key: string, options?: unknown) => ({ url, key, options }));
+const { createClient } = vi.hoisted(() => ({ createClient: vi.fn((url: string, key: string, options?: unknown) => ({ url, key, options })) }));
 vi.mock("@supabase/supabase-js", () => ({ createClient }));
 
 import { createPublicClient } from "./public";
