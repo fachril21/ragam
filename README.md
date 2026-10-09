@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ragam — template toko online fashion UMKM
 
-## Getting Started
+Template Next.js + Supabase untuk toko fashion UMKM. Rencana kerja ada di
+[`docs/Development Phases — Template Toko Online Fashion UMKM.md`](<docs/Development Phases — Template Toko Online Fashion UMKM.md>).
 
-First, run the development server:
+## Mulai
 
 ```bash
+npm install
+cp .env.example .env.local   # isi minimal variabel Supabase
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Database: jalankan `supabase/migrations/*.sql` berurutan lalu `supabase/seed.sql`
+(lihat [`docs/deploy.md`](docs/deploy.md)).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Perintah
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Perintah                | Fungsi                                                               |
+| ----------------------- | -------------------------------------------------------------------- |
+| `npm run dev`           | Server pengembangan                                                  |
+| `npm run lint`          | ESLint                                                               |
+| `npm run typecheck`     | TypeScript                                                           |
+| `npm test`              | Unit, komponen, dan uji database (PGlite)                            |
+| `npm run test:coverage` | Uji + coverage (ambang 80%)                                          |
+| `npm run build`         | Build produksi                                                       |
+| `npm run qa:rls`        | Cek RLS dengan anon key terhadap project Supabase (butuh .env.local) |
 
-## Learn More
+## Struktur
 
-To learn more about Next.js, take a look at the following resources:
+- `src/core` — logika inti, jangan diubah per klien (tidak boleh import dari `src/custom`)
+- `src/theme` — token desain dan `store.config.ts` (diubah per klien)
+- `src/custom` — override khusus klien
+- `supabase/migrations` — satu-satunya jalur perubahan skema
+- `scripts/qa` — skrip bukti acceptance criteria
+- `tests/db` — migrasi, constraint, dan RLS diuji di Postgres sungguhan (PGlite)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Halaman `/design` menampilkan semua komponen dan token (hanya di mode dev).

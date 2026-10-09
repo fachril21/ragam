@@ -1,0 +1,25 @@
+# Supabase CLI local config (supabase start). Remote project settings live in the Supabase dashboard,
+# but SCHEMA changes only ever go through supabase/migrations/*.sql.
+project_id = "ragam"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage"]
+
+[db]
+port = 54322
+major_version = 17
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[auth]
+enabled = true
+# Public sign-up is disabled: admins are created with scripts/create-admin.ts (Phase 6).
+enable_signup = false
+site_url = "http://localhost:3000"
+
+[storage]
+enabled = true
