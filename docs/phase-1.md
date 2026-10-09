@@ -25,7 +25,7 @@ Status: **kode selesai, bukti staging belum ada** (menunggu project Supabase dan
 | Kode | Bukti | Status |
 | --- | --- | --- |
 | E0-AC1 | `npm run build` hijau lokal dengan env dummy; CI di `.github/workflows/ci.yml`. URL staging HTTPS **belum** ada | Sebagian |
-| E0-AC2 | Token tunggal di `src/theme/tokens.ts` + `store.config.ts`; `css-sync.test.ts` menjaga `globals.css` tetap sinkron. Catatan 3 perubahan tema dengan screenshot **belum** dibuat | Sebagian |
+| E0-AC2 | Tiga perubahan tema, masing-masing hanya mengedit satu file di `src/theme/` dan berlaku di seluruh situs (lihat bagian di bawah). `css-sync.test.ts` menjaga `globals.css` tetap sinkron | Lolos |
 | E0-AC3 | `tests/db/migrations.test.ts`: migrasi + seed dari DB kosong (PGlite) → 3 kategori, 23 produk, ≥3 ukuran/produk. Terverifikasi juga di project Supabase asli (`supabase db push` 001–006 + seed): 3 kategori, 23 produk, 191 varian, 1 `store_settings` | Lolos |
 | E0-AC4 | `tests/db/rls.test.ts` (anon 0 baris untuk orders/order_items/payments/shipments/admin_profiles, produk nonaktif tersembunyi, kolom internal ditolak) + `npm run qa:rls` untuk project nyata. Dijalankan: orders, order_items, payments, shipments, admin_profiles = permission denied (0 baris); kolom internal `store_settings` ditolak untuk anon. `RLS check PASSED` | Lolos |
 | E0-AC5 | `tests/db/constraints.test.ts`: stok negatif ditolak, harga bertipe integer, `quantity > 0`, nomor order unik, `provider_reference` unik | Lolos |
@@ -33,11 +33,27 @@ Status: **kode selesai, bukti staging belum ada** (menunggu project Supabase dan
 
 Hasil uji lokal terakhir: 13 file uji dan seluruh tes lolos, coverage di atas 80% (ambang diatur di `vitest.config.mts`).
 
+## E0-AC2: uji tiga perubahan tema
+
+Diuji di `npm run dev` terhadap data Supabase asli. Setiap perubahan hanya menyentuh satu file di `src/theme/`; komponen dan halaman tidak diubah. Semua perubahan dikembalikan ke default setelah uji.
+
+| # | Perubahan | File | Sebelum | Sesudah |
+| --- | --- | --- | --- | --- |
+| 1 | Warna primer `#141414` → `#1e3a8a`, aksen `#c8102e` → `#0f766e` | `src/theme/tokens.ts` | [before](evidence/e0-ac2/1-color-before.png) | [after](evidence/e0-ac2/1-color-after.png) |
+| 2 | Font Inter → Playfair Display | `src/theme/fonts.ts` | [before](evidence/e0-ac2/0-before.png) | [after](evidence/e0-ac2/2-font-after.png) |
+| 3 | Nama toko "Ragam" → "Warna Kita" dan tagline | `src/theme/store.config.ts` | [before](evidence/e0-ac2/2-font-after.png) | [after](evidence/e0-ac2/3-name-after.png) |
+
+Perubahan 2 dan 3 bersifat kumulatif (before = hasil langkah sebelumnya). Untuk membuat perubahan font murni di `src/theme`, pemuatan font dipindah dari `layout.tsx` ke `src/theme/fonts.ts`.
+
+## Bug yang ditemukan saat uji visual
+
+`RadioGroup` memasang `onChange` di file `fields.tsx` yang bukan Client Component, sehingga `/design` error "Event handlers cannot be passed to Client Component props". Tes jsdom dan `next build` tidak menangkapnya (`/design` di-404-kan di build produksi). Diperbaiki dengan `"use client"` dan ditambah tes statis di `tests/architecture.test.ts` yang mewajibkan file komponen dengan handler/hook memakai `"use client"`.
+
 ## Yang perlu dilakukan pemilik repo
 
 1. Buat project Supabase, isi `.env.local` dan env Vercel, jalankan `supabase db push` + seed.
 2. Jalankan `npm run qa:rls` dan simpan keluarannya di sini (E0-AC4).
-3. Deploy ke Vercel; catat URL staging.
+3. Deploy ke Vercel; catat URL staging (E0-AC1).
 4. Atur branch protection `main` (wajib PR + CI hijau) di GitHub.
 5. Sediakan API key Duitku sandbox dan RajaOngkir untuk spike Fase 0.
 
