@@ -26,8 +26,8 @@ Status: **kode selesai, bukti staging belum ada** (menunggu project Supabase dan
 | --- | --- | --- |
 | E0-AC1 | `npm run build` hijau lokal dengan env dummy; CI di `.github/workflows/ci.yml`. URL staging HTTPS **belum** ada | Sebagian |
 | E0-AC2 | Token tunggal di `src/theme/tokens.ts` + `store.config.ts`; `css-sync.test.ts` menjaga `globals.css` tetap sinkron. Catatan 3 perubahan tema dengan screenshot **belum** dibuat | Sebagian |
-| E0-AC3 | `tests/db/migrations.test.ts`: migrasi + seed dari DB kosong (PGlite) → 3 kategori, 22 produk, ≥3 ukuran/produk. Belum diuji di project Supabase asli | Sebagian |
-| E0-AC4 | `tests/db/rls.test.ts` (anon 0 baris untuk orders/order_items/payments/shipments/admin_profiles, produk nonaktif tersembunyi, kolom internal ditolak) + `npm run qa:rls` untuk project nyata (**belum dijalankan**) | Sebagian |
+| E0-AC3 | `tests/db/migrations.test.ts`: migrasi + seed dari DB kosong (PGlite) → 3 kategori, 23 produk, ≥3 ukuran/produk. Terverifikasi juga di project Supabase asli (`supabase db push` 001–006 + seed): 3 kategori, 23 produk, 191 varian, 1 `store_settings` | Lolos |
+| E0-AC4 | `tests/db/rls.test.ts` (anon 0 baris untuk orders/order_items/payments/shipments/admin_profiles, produk nonaktif tersembunyi, kolom internal ditolak) + `npm run qa:rls` untuk project nyata. Dijalankan: orders, order_items, payments, shipments, admin_profiles = permission denied (0 baris); kolom internal `store_settings` ditolak untuk anon. `RLS check PASSED` | Lolos |
 | E0-AC5 | `tests/db/constraints.test.ts`: stok negatif ditolak, harga bertipe integer, `quantity > 0`, nomor order unik, `provider_reference` unik | Lolos |
 | Kontras WCAG AA | `src/theme/contrast.test.ts`: semua pasangan token ≥ 4,5:1 | Lolos |
 
@@ -45,3 +45,19 @@ Hasil uji lokal terakhir: 13 file uji dan seluruh tes lolos, coverage di atas 80
 
 - Gambar produk belum ada (Fase 2); kartu produk di beranda memakai placeholder abu-abu.
 - Link navigasi (`/produk`, `/kategori/*`, `/cari`, `/keranjang`, `/retur`, `/syarat`) belum punya halaman sampai fase terkait.
+
+
+
+◇ injected env (15) from .env.local
+orders             rows=0   error="permission denied for table orders"
+order_items        rows=0   error="permission denied for table order_items"
+payments           rows=0   error="permission denied for table payments"
+shipments          rows=0   error="permission denied for table shipments"
+admin_profiles     rows=0   error="permission denied for table admin_profiles"
+categories         rows=0   
+products           rows=0   
+product_variants   rows=0   
+product_images     rows=0   
+store_settings     rows=0   error="permission denied for table store_settings"
+
+RLS check PASSED: no sensitive table is readable with the anon key.
