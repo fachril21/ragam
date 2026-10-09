@@ -54,4 +54,18 @@ describe("architecture boundaries", () => {
       .map(rel);
     expect(offenders).toEqual([]);
   });
+
+  it("files that attach event handlers or use hooks are marked 'use client'", () => {
+    // Server Components cannot pass onClick/onChange to DOM elements or call stateful hooks.
+    // jsdom tests and `next build` do not catch this, so check it statically.
+    const handlerOrHook =
+      /\son(Click|Change|Close|Submit|Input|KeyDown|Focus|Blur)=\{|\buse(State|Effect|Ref|Reducer|Context|Memo|Callback)\(/;
+    const offenders = sources
+      .filter((f) => rel(f).startsWith("components/") || rel(f).startsWith("app/"))
+      .filter((f) => f.endsWith(".tsx"))
+      .filter((f) => handlerOrHook.test(read(f)))
+      .filter((f) => !/^\s*["']use client["']/.test(read(f)))
+      .map(rel);
+    expect(offenders).toEqual([]);
+  });
 });
