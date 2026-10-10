@@ -13,7 +13,7 @@ Branch kerja: `feat/3-ongkir` dari `main` (setelah tag `v0.1.0`). Tag penutup: `
 | D4 | Allowlist layanan reguler/ekspres per kurir di `src/core/integrations/rajaongkir/services.ts` | Spike: respons memuat kargo dan barang berbahaya (JTR, SPS, GOKIL, PAKETPOS DANGEROUS/VALUABLE, POS KARGO) |
 | D5 | Berat dihitung server dari `product_variants`/produk, dibulatkan ke atas per 500 g, minimum 500 g, maksimum 20 kg | Klien tidak dipercaya (E4-AC2, PRD) |
 | D6 | Tabel baru hanya diakses service role; RLS aktif tanpa policy untuk anon/authenticated | Konsisten dengan tabel sensitif Fase 1 |
-| D7 | Kolom berat: cek skema; bila belum ada, migrasi 007 menambah `weight_grams` ke `products` | Perlu verifikasi di langkah 1 |
+| D7 | Berat memakai `product_variants.weight_grams` yang sudah ada sejak migrasi 002; tidak ada kolom baru | Diverifikasi di skema |
 
 ## Langkah (urutan dependensi)
 
@@ -67,7 +67,7 @@ Branch kerja: `feat/3-ongkir` dari `main` (setelah tag `v0.1.0`). Tag penutup: `
 3. Ketik "ba" di kolom tujuan. ✅ Tidak ada permintaan jaringan; ketik "ban" → tepat 1 permintaan setelah jeda 300 ms; daftar muncul.
 4. Pilih "Bandung…", berat 1 kg, klik Hitung. ✅ Daftar tarif terurut harga, termurah bertanda, tanpa layanan kargo.
 5. Klik Hitung lagi dengan input sama. ✅ Muncul penanda "dari cache"; angka `api_usage` tidak bertambah.
-6. Ubah berat 0 g lalu 25 kg. ✅ Pesan validasi, tanpa hit.
+6. Ubah jumlah menjadi 0, lalu 99 (berat total melewati 20 kg). ✅ Pesan validasi, tanpa hit (`api_usage` tidak bertambah).
 7. Jalankan `npx tsx scripts/qa/shipping-cache.ts`. ✅ 10 permintaan, 1 hit upstream.
 8. Uji 5 tujuan (kota besar, kecamatan kecil, luar Jawa) dan bandingkan dengan situs kurir. ✅ Selisih sesuai harapan.
 9. Set `api_daily_limit` = 5 di `store_settings`, panggil sampai 4 hit. ✅ Peringatan 80% di log server; hit ke-6 → pesan kuota habis + tombol WhatsApp.
