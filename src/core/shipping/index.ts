@@ -1,4 +1,5 @@
 import "server-only";
+import { connection } from "next/server";
 import { getRajaOngkirClient } from "../integrations/rajaongkir";
 import { getServiceClient } from "../supabase/server";
 import { createShippingHandlers } from "./handlers";
@@ -34,6 +35,8 @@ export function shippingRoute(
   pick: (handlers: Handlers) => (request: Request) => Promise<Response>,
 ) {
   return async (request: Request): Promise<Response> => {
+    // Opt out of prerendering before any try/catch, so Next's internal bail-out is never swallowed.
+    await connection();
     try {
       return await pick(build())(request);
     } catch (error) {
