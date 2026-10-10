@@ -5,6 +5,10 @@ export const SENSITIVE_TABLES = [
   "payments",
   "shipments",
   "admin_profiles",
+  // Phase 3 (migration 007): server-only shipping state.
+  "shipping_cache",
+  "api_usage",
+  "rate_limits",
 ] as const;
 
 /** Public catalog tables the anon key is expected to read (reported for context only). */
