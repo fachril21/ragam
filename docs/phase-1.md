@@ -1,6 +1,6 @@
 # Fase 1 — Fondasi: scaffold, design token, database
 
-Status: **kode selesai, bukti staging belum ada** (menunggu project Supabase dan Vercel dari pemilik repo).
+Status: **selesai**. Staging live di https://ragam-five.vercel.app (Vercel, branch `main`).
 
 ## Keputusan
 
@@ -24,7 +24,7 @@ Status: **kode selesai, bukti staging belum ada** (menunggu project Supabase dan
 
 | Kode | Bukti | Status |
 | --- | --- | --- |
-| E0-AC1 | `npm run build` hijau lokal dengan env dummy; CI di `.github/workflows/ci.yml`. URL staging HTTPS **belum** ada | Sebagian |
+| E0-AC1 | `npm run build` hijau lokal dengan env dummy; CI di `.github/workflows/ci.yml`. CI hijau di PR #1 (`checks` + `secrets`). Staging HTTPS: https://ragam-five.vercel.app, beranda memuat produk dari data seed Supabase (`/design` sengaja 404 di produksi) | Lolos |
 | E0-AC2 | Tiga perubahan tema, masing-masing hanya mengedit satu file di `src/theme/` dan berlaku di seluruh situs (lihat bagian di bawah). `css-sync.test.ts` menjaga `globals.css` tetap sinkron | Lolos |
 | E0-AC3 | `tests/db/migrations.test.ts`: migrasi + seed dari DB kosong (PGlite) → 3 kategori, 23 produk, ≥3 ukuran/produk. Terverifikasi juga di project Supabase asli (`supabase db push` 001–006 + seed): 3 kategori, 23 produk, 191 varian, 1 `store_settings` | Lolos |
 | E0-AC4 | `tests/db/rls.test.ts` (anon 0 baris untuk orders/order_items/payments/shipments/admin_profiles, produk nonaktif tersembunyi, kolom internal ditolak) + `npm run qa:rls` untuk project nyata. Dijalankan: orders, order_items, payments, shipments, admin_profiles = permission denied (0 baris); kolom internal `store_settings` ditolak untuk anon. `RLS check PASSED` | Lolos |
@@ -51,11 +51,7 @@ Perubahan 2 dan 3 bersifat kumulatif (before = hasil langkah sebelumnya). Untuk 
 
 ## Yang perlu dilakukan pemilik repo
 
-1. Buat project Supabase, isi `.env.local` dan env Vercel, jalankan `supabase db push` + seed.
-2. Jalankan `npm run qa:rls` dan simpan keluarannya di sini (E0-AC4).
-3. Deploy ke Vercel; catat URL staging (E0-AC1).
-4. Atur branch protection `main` (wajib PR + CI hijau) di GitHub.
-5. Sediakan API key Duitku sandbox dan RajaOngkir untuk spike Fase 0.
+1. Sediakan API key Duitku sandbox dan RajaOngkir untuk spike Fase 0 (paling lambat sebelum Fase 3).
 
 ## Masalah terbuka
 
