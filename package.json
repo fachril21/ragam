@@ -15,7 +15,9 @@
     "format:check": "prettier --check .",
     "db:types": "supabase gen types typescript --local > src/core/supabase/database.types.ts",
     "qa:rls": "tsx scripts/qa/rls-check.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "qa:shipping-cache": "tsx scripts/qa/shipping-cache.ts",
+    "qa:bundle-secrets": "tsx scripts/qa/bundle-secrets.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.3",
